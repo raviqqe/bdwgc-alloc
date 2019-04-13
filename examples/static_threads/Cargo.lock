@@ -8,16 +8,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "bdwgc-examples"
+name = "libc"
+version = "0.2.51"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "static_threads"
 version = "0.1.0"
 dependencies = [
  "bdwgc-allocator 0.1.0",
 ]
-
-[[package]]
-name = "libc"
-version = "0.2.51"
-source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [metadata]
 "checksum libc 0.2.51 (registry+https://github.com/rust-lang/crates.io-index)" = "bedcc7a809076656486ffe045abeeac163da1b558e963a31e29fbfbeba916917"
