@@ -4,10 +4,7 @@ extern crate bdwgc_allocator;
 static GLOBAL_ALLOCATOR: bdwgc_allocator::Allocator = bdwgc_allocator::Allocator;
 
 fn main() {
-    unsafe {
-        bdwgc_allocator::Allocator::initialize();
-        bdwgc_allocator::Allocator::start_gc();
-    }
+    unsafe { bdwgc_allocator::Allocator::initialize() }
 
     let handle = std::thread::spawn(move || {
         bdwgc_allocator::Allocator::register_current_thread().unwrap();
