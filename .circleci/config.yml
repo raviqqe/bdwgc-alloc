@@ -1,0 +1,11 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: rust
+    steps:
+      - run: apt -y update --fix-missing
+      - run: apt -y install libgc-dev
+      - checkout
+      - run: cargo build
+      - run: cd examples && ./test.sh
