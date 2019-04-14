@@ -7,7 +7,7 @@
 
 ## Usage
 
-See [`examples` directory](examples).
+See [`examples`](examples) directory.
 
 ## License
 
