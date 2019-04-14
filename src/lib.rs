@@ -8,7 +8,7 @@ use std::alloc::{GlobalAlloc, Layout};
 const GC_SUCCESS: c_int = 0;
 
 #[repr(C)]
-struct GCStackBase {
+struct GcStackBase {
     mem_base: *const c_void,
     reg_base: *const c_void,
 }
@@ -17,10 +17,10 @@ struct GCStackBase {
 extern "C" {
     fn GC_allow_register_threads() -> c_void;
     fn GC_free(ptr: *mut c_void);
-    fn GC_get_stack_base(stack_base: *mut GCStackBase) -> c_int;
+    fn GC_get_stack_base(stack_base: *mut GcStackBase) -> c_int;
     fn GC_init() -> c_void;
     fn GC_malloc(size: size_t) -> *mut c_void;
-    fn GC_register_my_thread(stack_base: *const GCStackBase) -> c_int;
+    fn GC_register_my_thread(stack_base: *const GcStackBase) -> c_int;
     fn GC_unregister_my_thread();
 }
 
@@ -33,7 +33,7 @@ impl Allocator {
     }
 
     pub fn register_current_thread() -> Result<(), error::Error> {
-        let mut base = GCStackBase {
+        let mut base = GcStackBase {
             mem_base: std::ptr::null(),
             reg_base: std::ptr::null(),
         };
