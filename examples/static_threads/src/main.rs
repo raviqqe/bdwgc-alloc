@@ -1,18 +1,21 @@
 extern crate bdwgc_allocator;
 
+use bdwgc_allocator::Allocator;
+use std::alloc::{GlobalAlloc, Layout};
+
 #[global_allocator]
-static GLOBAL_ALLOCATOR: bdwgc_allocator::Allocator = bdwgc_allocator::Allocator;
+static GLOBAL_ALLOCATOR: Allocator = Allocator;
 
 fn main() {
-    unsafe { bdwgc_allocator::Allocator::initialize() }
+    unsafe { Allocator::initialize() }
 
     let handle = std::thread::spawn(move || {
-        bdwgc_allocator::Allocator::register_current_thread().unwrap();
+        Allocator::register_current_thread().unwrap();
 
-        let mut _n = bdwgc_allocator::Allocator::alloc(2 ^ 8);
+        let mut _n = unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
 
         loop {
-            _n = bdwgc_allocator::Allocator::alloc(2 ^ 8)
+            _n = unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) }
         }
     });
 

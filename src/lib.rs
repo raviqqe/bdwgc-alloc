@@ -6,7 +6,6 @@ use libc::{c_int, c_void, size_t};
 use std::alloc::{GlobalAlloc, Layout};
 
 const GC_SUCCESS: c_int = 0;
-const ALLOC_ALIGN: usize = 8;
 
 #[repr(C)]
 struct GCStackBase {
@@ -50,10 +49,6 @@ impl Allocator {
 
     pub fn unregister_current_thread() {
         unsafe { GC_unregister_my_thread() }
-    }
-
-    pub fn alloc(size: usize) -> *mut u8 {
-        unsafe { Allocator.alloc(Layout::from_size_align_unchecked(size, ALLOC_ALIGN)) }
     }
 }
 
