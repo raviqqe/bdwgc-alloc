@@ -1,6 +1,6 @@
-extern crate bdwgc_allocator;
+extern crate bdwgc_alloc;
 
-use bdwgc_allocator::Allocator;
+use bdwgc_alloc::Allocator;
 use std::alloc::{GlobalAlloc, Layout};
 
 #[global_allocator]
