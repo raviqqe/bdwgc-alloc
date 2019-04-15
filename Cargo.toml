@@ -1,9 +1,11 @@
 [package]
 name = "bdwgc-alloc"
-version = "0.1.0"
+description = "impl GlobalAlloc for bdwgc"
+version = "0.1.1"
 authors = ["swgillespie <sean.william.g@gmail.com>", "Yota Toyama <raviqqe@gmail.com>"]
-publish = false
+repository = "https://github.com/raviqqe/bdwgc-rs"
 edition = "2018"
+license = "MIT"
 
 [dependencies]
 libc = "0.2"
