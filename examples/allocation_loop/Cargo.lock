@@ -4,12 +4,12 @@
 name = "allocation_loop"
 version = "0.1.0"
 dependencies = [
- "bdwgc-alloc 0.1.1",
+ "bdwgc-alloc 0.2.0",
 ]
 
 [[package]]
 name = "bdwgc-alloc"
-version = "0.1.1"
+version = "0.2.0"
 dependencies = [
  "libc 0.2.51 (registry+https://github.com/rust-lang/crates.io-index)",
 ]

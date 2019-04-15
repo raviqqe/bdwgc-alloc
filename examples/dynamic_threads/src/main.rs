@@ -11,7 +11,7 @@ fn main() {
 
     loop {
         let handle = std::thread::spawn(move || {
-            Allocator::register_current_thread().unwrap();
+            unsafe { Allocator::register_current_thread().unwrap() }
 
             let mut _n =
                 unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
@@ -20,7 +20,7 @@ fn main() {
                 _n = unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) }
             }
 
-            Allocator::unregister_current_thread();
+            unsafe { Allocator::unregister_current_thread() }
         });
 
         handle.join().unwrap();

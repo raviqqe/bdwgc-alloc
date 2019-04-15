@@ -10,7 +10,7 @@ fn main() {
     unsafe { Allocator::initialize() }
 
     let handle = std::thread::spawn(move || {
-        Allocator::register_current_thread().unwrap();
+        unsafe { Allocator::register_current_thread().unwrap() }
 
         let mut _n = unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
 

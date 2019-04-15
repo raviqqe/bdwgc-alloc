@@ -32,23 +32,23 @@ impl Allocator {
         GC_allow_register_threads();
     }
 
-    pub fn register_current_thread() -> Result<(), error::Error> {
+    pub unsafe fn register_current_thread() -> Result<(), error::Error> {
         let mut base = GcStackBase {
             mem_base: std::ptr::null(),
             reg_base: std::ptr::null(),
         };
 
-        if unsafe { GC_get_stack_base(&mut base) } != GC_SUCCESS {
+        if GC_get_stack_base(&mut base) != GC_SUCCESS {
             return Err(error::Error::new("failed to get stack base"));
-        } else if unsafe { GC_register_my_thread(&base) } != GC_SUCCESS {
+        } else if GC_register_my_thread(&base) != GC_SUCCESS {
             return Err(error::Error::new("failed to register a thread for GC"));
         }
 
         Ok(())
     }
 
-    pub fn unregister_current_thread() {
-        unsafe { GC_unregister_my_thread() }
+    pub unsafe fn unregister_current_thread() {
+        GC_unregister_my_thread()
     }
 }
 
