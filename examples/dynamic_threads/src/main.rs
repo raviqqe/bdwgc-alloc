@@ -13,11 +13,8 @@ fn main() {
         let handle = std::thread::spawn(move || {
             unsafe { Allocator::register_current_thread().unwrap() }
 
-            let mut _n =
-                unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
-
             for _ in 0..100 {
-                _n = unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) }
+                unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
             }
 
             unsafe { Allocator::unregister_current_thread() }

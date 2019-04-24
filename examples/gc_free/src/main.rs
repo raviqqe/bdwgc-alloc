@@ -9,9 +9,7 @@ static GLOBAL_ALLOCATOR: Allocator = Allocator;
 fn main() {
     unsafe { Allocator::initialize() }
 
-    let mut _n = unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
-
     loop {
-        _n = unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
+        unsafe { GLOBAL_ALLOCATOR.alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
     }
 }
