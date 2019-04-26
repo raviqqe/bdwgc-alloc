@@ -32,4 +32,12 @@ fn main() {
         dst.join("lib").display()
     );
     println!("cargo:rustc-link-lib=static=gc");
+
+    for dir in &[LIB_ATOMIC_OPS_DIR, LIB_GC_DIR] {
+        std::process::Command::new("sh")
+            .arg("-c")
+            .arg(format!("cd {} && git clean -dfx", dir))
+            .output()
+            .unwrap();
+    }
 }

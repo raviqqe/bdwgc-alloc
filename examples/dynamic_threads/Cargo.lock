@@ -10,7 +10,7 @@ dependencies = [
 
 [[package]]
 name = "bdwgc-alloc"
-version = "0.2.1"
+version = "0.3.0"
 dependencies = [
  "autotools 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.51 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -25,7 +25,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "dynamic_threads"
 version = "0.1.0"
 dependencies = [
- "bdwgc-alloc 0.2.1",
+ "bdwgc-alloc 0.3.0",
 ]
 
 [[package]]
