@@ -13,4 +13,3 @@ libc = "0.2"
 
 [build-dependencies]
 autotools = "0.2"
-cmake = "0.1"
