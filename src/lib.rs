@@ -13,7 +13,7 @@ struct GcStackBase {
     reg_base: *const c_void,
 }
 
-#[link(name = "gc")]
+#[link(name = "gc", kind = "static")]
 extern "C" {
     fn GC_allow_register_threads() -> c_void;
     fn GC_free(ptr: *mut c_void);

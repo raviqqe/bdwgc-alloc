@@ -6,6 +6,11 @@ authors = ["swgillespie <sean.william.g@gmail.com>", "Yota Toyama <raviqqe@gmail
 repository = "https://github.com/raviqqe/bdwgc-alloc"
 edition = "2018"
 license = "MIT"
+build = "build.rs"
 
 [dependencies]
 libc = "0.2"
+
+[build-dependencies]
+autotools = "0.2"
+cmake = "0.1"
