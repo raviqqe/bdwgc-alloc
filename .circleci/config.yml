@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: rust
+      - image: rustlang/rust:nightly
     steps:
       - checkout
       - run: git submodule update --init --recursive
