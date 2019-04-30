@@ -1,5 +1,5 @@
 [package]
-name = "borrow_check_free"
+name = "free_by_borrow"
 version = "0.1.0"
 authors = ["Yota Toyama <raviqqe@gmail.com>"]
 edition = "2018"

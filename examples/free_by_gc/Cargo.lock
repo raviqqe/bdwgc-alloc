@@ -33,7 +33,7 @@ version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "dynamic_threads"
+name = "free_by_gc"
 version = "0.1.0"
 dependencies = [
  "bdwgc-alloc 0.3.0",
