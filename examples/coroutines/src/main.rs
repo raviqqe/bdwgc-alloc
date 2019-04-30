@@ -9,10 +9,8 @@ use std::alloc::{GlobalAlloc, Layout};
 static GLOBAL_ALLOCATOR: Allocator = Allocator;
 
 fn main() {
-    unsafe {
-        Allocator::initialize();
-        Allocator::disable_gc();
-    }
+    unsafe { Allocator::initialize() }
+    Allocator::disable_gc();
 
     let handle = Coroutine::spawn(move |_, _| {
         let bottom: u8 = 0;
