@@ -10,7 +10,6 @@ build = "build.rs"
 
 [dependencies]
 libc = "0.2"
-nix = "0.13"
 
 [build-dependencies]
 autotools = "0.2"

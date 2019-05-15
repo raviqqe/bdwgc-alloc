@@ -2,7 +2,7 @@ extern crate libc;
 
 mod error;
 
-use libc::{c_char, c_int, c_void, size_t};
+use libc::{c_int, c_void, size_t};
 use std::alloc::{GlobalAlloc, Layout};
 
 const GC_SUCCESS: c_int = 0;
@@ -10,12 +10,16 @@ const GC_SUCCESS: c_int = 0;
 #[repr(C)]
 struct GcStackBase {
     mem_base: *const c_void,
-    reg_base: *const c_void,
+    // TODO: Add reg_base field to support IA64.
 }
 
 #[link(name = "gc", kind = "static")]
 extern "C" {
     fn GC_allow_register_threads() -> c_void;
+    fn GC_call_with_alloc_lock(
+        callback: unsafe extern "C" fn(*const c_void) -> *const c_void,
+        client_data: *const c_void,
+    ) -> *const c_void;
     fn GC_disable() -> c_void;
     fn GC_enable() -> c_void;
     fn GC_free(ptr: *mut c_void);
@@ -23,8 +27,8 @@ extern "C" {
     fn GC_init() -> c_void;
     fn GC_malloc(size: size_t) -> *mut c_void;
     fn GC_register_my_thread(stack_base: *const GcStackBase) -> c_int;
-    fn GC_set_stack_bottom(thread: *const c_void, stack_bottom: *const c_char);
-    fn GC_unregister_my_thread();
+    fn GC_set_stackbottom(thread: *const c_void, stack_bottom: *const GcStackBase) -> c_void;
+    fn GC_unregister_my_thread() -> c_void;
 }
 
 pub struct Allocator;
@@ -46,7 +50,6 @@ impl Allocator {
     pub unsafe fn register_current_thread() -> Result<(), error::Error> {
         let mut base = GcStackBase {
             mem_base: std::ptr::null(),
-            reg_base: std::ptr::null(),
         };
 
         if GC_get_stack_base(&mut base) != GC_SUCCESS {
@@ -59,14 +62,11 @@ impl Allocator {
     }
 
     pub unsafe fn set_stack_bottom(bottom: *const u8) {
-        GC_set_stack_bottom(
-            std::mem::transmute(nix::sys::pthread::pthread_self()),
-            std::mem::transmute(bottom),
-        );
+        GC_call_with_alloc_lock(set_stack_bottom, std::mem::transmute(bottom));
     }
 
     pub unsafe fn unregister_current_thread() {
-        GC_unregister_my_thread()
+        GC_unregister_my_thread();
     }
 }
 
@@ -78,4 +78,15 @@ unsafe impl GlobalAlloc for Allocator {
     unsafe fn dealloc(&self, ptr: *mut u8, _layout: Layout) {
         GC_free(ptr as *mut c_void)
     }
+}
+
+// client_data is an address of a stack bottom of the current thread.
+unsafe extern "C" fn set_stack_bottom(client_data: *const c_void) -> *const c_void {
+    let base = GcStackBase {
+        mem_base: client_data,
+    };
+
+    GC_set_stackbottom(std::ptr::null(), &base);
+
+    return std::ptr::null();
 }
