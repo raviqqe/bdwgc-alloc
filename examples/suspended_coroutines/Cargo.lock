@@ -10,7 +10,7 @@ dependencies = [
 
 [[package]]
 name = "bdwgc-alloc"
-version = "0.3.0"
+version = "0.4.1"
 dependencies = [
  "autotools 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "libc 0.2.51 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -87,7 +87,7 @@ dependencies = [
 name = "suspended_coroutines"
 version = "0.1.0"
 dependencies = [
- "bdwgc-alloc 0.3.0",
+ "bdwgc-alloc 0.4.1",
  "coroutine 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
