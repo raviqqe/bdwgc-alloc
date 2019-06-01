@@ -16,10 +16,6 @@ struct GcStackBase {
 #[link(name = "gc", kind = "static")]
 extern "C" {
     fn GC_allow_register_threads() -> c_void;
-    fn GC_call_with_alloc_lock(
-        callback: unsafe extern "C" fn(*const c_void) -> *const c_void,
-        client_data: *const c_void,
-    ) -> *const c_void;
     fn GC_alloc_lock() -> c_void;
     fn GC_alloc_unlock() -> c_void;
     fn GC_free(ptr: *mut c_void);
@@ -62,7 +58,12 @@ impl Allocator {
     }
 
     pub unsafe fn set_stack_bottom(bottom: *const u8) {
-        GC_call_with_alloc_lock(set_stack_bottom, std::mem::transmute(bottom));
+        GC_set_stackbottom(
+            std::ptr::null(),
+            &GcStackBase {
+                mem_base: bottom as *const libc::c_void,
+            },
+        );
     }
 
     pub unsafe fn unregister_current_thread() {
@@ -78,15 +79,4 @@ unsafe impl GlobalAlloc for Allocator {
     unsafe fn dealloc(&self, ptr: *mut u8, _layout: Layout) {
         GC_free(ptr as *mut c_void)
     }
-}
-
-// client_data is an address of a stack bottom of the current thread.
-unsafe extern "C" fn set_stack_bottom(client_data: *const c_void) -> *const c_void {
-    let base = GcStackBase {
-        mem_base: client_data,
-    };
-
-    GC_set_stackbottom(std::ptr::null(), &base);
-
-    return std::ptr::null();
 }
