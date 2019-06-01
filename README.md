@@ -4,7 +4,9 @@
 [![Crate](https://img.shields.io/crates/v/bdwgc-alloc.svg?style=flat-square)](https://crates.io/crates/bdwgc-alloc)
 [![License](https://img.shields.io/github/license/raviqqe/bdwgc-alloc.svg?style=flat-square)](LICENSE)
 
-[`GlobalAlloc`](https://doc.rust-lang.org/std/alloc/trait.GlobalAlloc.html) implementation for [bdwgc](https://github.com/ivmai/bdwgc), the conservative garbage collector. This crate supports only Unix-like operating systems currently.
+[`GlobalAlloc`](https://doc.rust-lang.org/std/alloc/trait.GlobalAlloc.html) implementation for [`bdwgc`][bdwgc], the conservative garbage collector.
+
+This crate is for use cases in which developers need to integrate [`bdwgc`][bdwgc] into their programs written in Rust (e.g. writing a runtime library in Rust for their own programming language whose GC is done by [`bdwgc`][bdwgc].)
 
 ## Usage
 
@@ -13,3 +15,5 @@ See [`examples`](examples) directory.
 ## License
 
 [MIT](LICENSE)
+
+[bdwgc]: https://github.com/ivmai/bdwgc
