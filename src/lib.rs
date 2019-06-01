@@ -20,8 +20,8 @@ extern "C" {
         callback: unsafe extern "C" fn(*const c_void) -> *const c_void,
         client_data: *const c_void,
     ) -> *const c_void;
-    fn GC_disable() -> c_void;
-    fn GC_enable() -> c_void;
+    fn GC_alloc_lock() -> c_void;
+    fn GC_alloc_unlock() -> c_void;
     fn GC_free(ptr: *mut c_void);
     fn GC_get_stack_base(stack_base: *mut GcStackBase) -> c_int;
     fn GC_init() -> c_void;
@@ -34,12 +34,12 @@ extern "C" {
 pub struct Allocator;
 
 impl Allocator {
-    pub fn disable_gc() {
-        unsafe { GC_disable() };
+    pub fn lock() {
+        unsafe { GC_alloc_lock() };
     }
 
-    pub fn enable_gc() {
-        unsafe { GC_enable() };
+    pub fn unlock() {
+        unsafe { GC_alloc_unlock() };
     }
 
     pub unsafe fn initialize() {
