@@ -2,19 +2,12 @@
 
 set -ex
 
-for dir in $(ls)
-do
-	if ! [ -d $dir ]
-	then
-		continue
-	fi
+cargo build
 
-	(
-		cd $dir
-		cargo build
-		target/debug/$dir &
-		pid=$!
-		sleep 10
-		kill $pid
-	)
+for cargo_file in */Cargo.toml
+do
+	target/debug/$(dirname $cargo_file) &
+	pid=$!
+	sleep 10
+	kill $pid
 done
