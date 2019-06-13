@@ -15,27 +15,27 @@ struct GcStackBase {
 
 #[link(name = "gc", kind = "static")]
 extern "C" {
-    fn GC_allow_register_threads() -> c_void;
-    fn GC_alloc_lock() -> c_void;
-    fn GC_alloc_unlock() -> c_void;
+    fn GC_allow_register_threads();
+    fn GC_alloc_lock();
+    fn GC_alloc_unlock();
     fn GC_free(ptr: *mut c_void);
     fn GC_get_stack_base(stack_base: *mut GcStackBase) -> c_int;
-    fn GC_init() -> c_void;
+    fn GC_init();
     fn GC_malloc(size: size_t) -> *mut c_void;
     fn GC_register_my_thread(stack_base: *const GcStackBase) -> c_int;
-    fn GC_set_stackbottom(thread: *const c_void, stack_bottom: *const GcStackBase) -> c_void;
-    fn GC_unregister_my_thread() -> c_void;
+    fn GC_set_stackbottom(thread: *const c_void, stack_bottom: *const GcStackBase);
+    fn GC_unregister_my_thread();
 }
 
 pub struct Allocator;
 
 impl Allocator {
     pub fn lock() {
-        unsafe { GC_alloc_lock() };
+        unsafe { GC_alloc_lock() }
     }
 
     pub fn unlock() {
-        unsafe { GC_alloc_unlock() };
+        unsafe { GC_alloc_unlock() }
     }
 
     pub unsafe fn initialize() {
@@ -63,11 +63,11 @@ impl Allocator {
             &GcStackBase {
                 mem_base: bottom as *const libc::c_void,
             },
-        );
+        )
     }
 
     pub unsafe fn unregister_current_thread() {
-        GC_unregister_my_thread();
+        GC_unregister_my_thread()
     }
 }
 
