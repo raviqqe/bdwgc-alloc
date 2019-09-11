@@ -8,8 +8,12 @@ edition = "2018"
 license = "MIT"
 build = "build.rs"
 
+[features]
+default = ["autotools"]
+
 [dependencies]
 libc = "0.2"
 
 [build-dependencies]
-autotools = "0.2"
+autotools = {version = "0.2", optional = true}
+cmake = {version = "0.1", optional = true}
