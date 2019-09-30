@@ -8,3 +8,6 @@ jobs:
       - run: git submodule update --init --recursive
       - run: cargo build
       - run: cd examples && ./test.sh
+      - run: |
+          git clean -dfx
+          cargo build --features cmake

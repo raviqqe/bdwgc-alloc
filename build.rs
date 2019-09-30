@@ -1,7 +1,7 @@
 const LIB_ATOMIC_OPS_DIR: &str = "vendor/libatomic_ops";
 const LIB_GC_DIR: &str = "vendor/bdwgc";
 
-#[cfg(feature = "autotools")]
+#[cfg(not(feature = "cmake"))]
 fn main() {
     for dir in &[LIB_ATOMIC_OPS_DIR, LIB_GC_DIR] {
         std::process::Command::new("sh")
