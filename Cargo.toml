@@ -15,5 +15,5 @@ default = ["autotools"]
 libc = "0.2"
 
 [build-dependencies]
-autotools = {version = "0.2", optional = true}
-cmake = {version = "0.1", optional = true}
+autotools = { version = "0.2", optional = true }
+cmake = { version = "0.1", optional = true }
