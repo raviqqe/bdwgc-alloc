@@ -4,6 +4,8 @@ jobs:
     docker:
       - image: rustlang/rust:nightly
     steps:
+      - run: apt -y update --fix-missing
+      - run: apt -y install cmake
       - checkout
       - run: git submodule update --init --recursive
       - run: cargo build
