@@ -12,6 +12,12 @@ This crate is for use cases in which developers need to integrate [`bdwgc`][bdwg
 
 See [`examples`](examples) directory.
 
+By default [`bdwgc`][bdwgc] is built with autotools. To build with cmake, enable the `cmake` feature:
+
+```sh
+cargo build --no-default-features --features cmake
+```
+
 ## License
 
 [MIT](LICENSE)

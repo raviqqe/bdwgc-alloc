@@ -1,9 +1,7 @@
 [workspace]
 members = [
-  "coroutines",
   "dynamic_threads",
   "free_by_borrow",
   "free_by_gc",
   "static_threads",
-  "suspended_coroutines",
 ]
