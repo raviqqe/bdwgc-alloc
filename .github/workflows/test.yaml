@@ -21,8 +21,6 @@ jobs:
           command: clippy
           args: -- -D warnings
       - uses: actions-rs/audit-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           cd examples
           ./test.sh
