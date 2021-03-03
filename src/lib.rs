@@ -22,6 +22,7 @@ extern "C" {
     fn GC_get_stack_base(stack_base: *mut GcStackBase) -> c_int;
     fn GC_init();
     fn GC_malloc(size: size_t) -> *mut c_void;
+    fn GC_realloc(ptr: *mut c_void, size: size_t) -> *mut c_void;
     fn GC_register_my_thread(stack_base: *const GcStackBase) -> c_int;
     fn GC_set_stackbottom(thread: *const c_void, stack_bottom: *const GcStackBase);
     fn GC_unregister_my_thread();
@@ -78,5 +79,9 @@ unsafe impl GlobalAlloc for Allocator {
 
     unsafe fn dealloc(&self, ptr: *mut u8, _layout: Layout) {
         GC_free(ptr as *mut c_void)
+    }
+
+    unsafe fn realloc(&self, ptr: *mut u8, _layout: Layout, size: usize) -> *mut u8 {
+        GC_realloc(ptr as *mut c_void, size) as *mut u8
     }
 }
