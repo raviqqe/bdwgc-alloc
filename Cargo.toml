@@ -1,7 +1,7 @@
 [package]
 name = "bdwgc-alloc"
 description = "impl GlobalAlloc for bdwgc"
-version = "0.6.0"
+version = "0.6.1"
 authors = [
   "swgillespie <sean.william.g@gmail.com>",
   "Yota Toyama <raviqqe@gmail.com>",
