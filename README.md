@@ -1,6 +1,6 @@
 # bdwgc-alloc
 
-[![GitHub Action](https://img.shields.io/github/workflow/status/raviqqe/bdwgc-alloc/test?style=flat-square)](https://github.com/raviqqe/bdwgc-alloc/actions)
+[![GitHub Action](https://img.shields.io/github/actions/workflow/status/raviqqe/bdwgc-alloc/test.yaml?branch=main&style=flat-square)](https://github.com/raviqqe/bdwgc-alloc/actions)
 [![Crate](https://img.shields.io/crates/v/bdwgc-alloc.svg?style=flat-square)](https://crates.io/crates/bdwgc-alloc)
 [![License](https://img.shields.io/github/license/raviqqe/bdwgc-alloc.svg?style=flat-square)](LICENSE)
 
