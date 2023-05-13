@@ -26,6 +26,14 @@ extern "C" {
     fn GC_register_my_thread(stack_base: *const GcStackBase) -> c_int;
     fn GC_set_stackbottom(thread: *const c_void, stack_bottom: *const GcStackBase);
     fn GC_unregister_my_thread();
+    fn GC_gcollect();
+    fn GC_register_finalizer(
+        obj: *const c_void,
+        f: extern "C" fn(*mut c_void, *mut c_void),
+        client_data: *const c_void,
+        opt_old_f: *const c_void,
+        opt_old_cd: *const c_void,
+    ) -> *mut c_void;
 }
 
 pub struct Allocator;
@@ -69,6 +77,18 @@ impl Allocator {
 
     pub unsafe fn unregister_current_thread() {
         GC_unregister_my_thread()
+    }
+
+    pub fn force_collect() {
+        unsafe { GC_gcollect() }
+    }
+
+    pub unsafe fn register_finalizer(
+        obj: *const c_void,
+        f: extern "C" fn(*mut c_void, *mut c_void),
+        client_data: *const c_void,
+    ) {
+        GC_register_finalizer(obj, f, client_data, std::ptr::null(), std::ptr::null());
     }
 }
 
