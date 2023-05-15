@@ -28,11 +28,11 @@ extern "C" {
     fn GC_unregister_my_thread();
     fn GC_gcollect();
     fn GC_register_finalizer(
-        obj: *const c_void,
-        f: extern "C" fn(*mut c_void, *mut c_void),
+        ptr: *const c_void,
+        finalizer: extern "C" fn(*mut c_void, *mut c_void),
         client_data: *const c_void,
-        opt_old_f: *const c_void,
-        opt_old_cd: *const c_void,
+        opt_old_finalizer: *const c_void,
+        opt_old_client_data: *const c_void,
     ) -> *mut c_void;
 }
 
@@ -84,11 +84,17 @@ impl Allocator {
     }
 
     pub unsafe fn register_finalizer(
-        obj: *const c_void,
-        f: extern "C" fn(*mut c_void, *mut c_void),
+        ptr: *const c_void,
+        finalizer: extern "C" fn(*mut c_void, *mut c_void),
         client_data: *const c_void,
     ) {
-        GC_register_finalizer(obj, f, client_data, std::ptr::null(), std::ptr::null());
+        GC_register_finalizer(
+            ptr,
+            finalizer,
+            client_data,
+            std::ptr::null(),
+            std::ptr::null(),
+        );
     }
 }
 
