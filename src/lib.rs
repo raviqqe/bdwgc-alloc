@@ -86,16 +86,16 @@ impl Allocator {
 
     pub unsafe fn register_finalizer<F: FnOnce(*mut c_void) + 'static>(
         ptr: *const c_void,
-        finalizer: &'static F,
+        finalizer: F,
     ) {
         extern "C" fn finalize<F: FnOnce(*mut c_void)>(ptr: *mut c_void, data: *mut c_void) {
-            (*(data as *mut F))(ptr)
+            (unsafe { Box::from_raw(data as *mut F) })(ptr)
         }
 
         GC_register_finalizer(
             ptr,
             finalize::<F>,
-            finalizer as *const _ as *const _,
+            Box::new(finalizer).into_raw() as *const _ as *const _,
             null(),
             null(),
         );
