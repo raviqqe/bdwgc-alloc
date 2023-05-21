@@ -84,12 +84,12 @@ impl Allocator {
         unsafe { GC_gcollect() }
     }
 
-    pub unsafe fn register_finalizer(
-        ptr: *const c_void,
-        finalizer: extern "C" fn(*mut c_void, *mut c_void),
-        client_data: *const c_void,
-    ) {
-        GC_register_finalizer(ptr, finalizer, client_data, null(), null());
+    pub unsafe fn register_finalizer(ptr: *const c_void, finalizer: impl FnOnce(*mut c_void)) {
+        unsafe extern "C" fn finalize<F: FnOnce(*mut c_void)>(ptr: *mut c_void, data: *mut c_void) {
+            (*(data as *mut F))(ptr)
+        }
+
+        GC_register_finalizer(ptr, finalize::<F>, &mut finalizer, null(), null());
     }
 }
 
