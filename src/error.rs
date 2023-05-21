@@ -1,3 +1,8 @@
+use std::{
+    error,
+    fmt::{self, Display, Formatter},
+};
+
 #[derive(Debug)]
 pub struct Error {
     description: &'static str,
@@ -9,13 +14,13 @@ impl Error {
     }
 }
 
-impl std::fmt::Display for Error {
-    fn fmt(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+impl Display for Error {
+    fn fmt(&self, formatter: &mut Formatter) -> fmt::Result {
         write!(formatter, "{}", self.description)
     }
 }
 
-impl std::error::Error for Error {
+impl error::Error for Error {
     fn description(&self) -> &str {
         self.description
     }

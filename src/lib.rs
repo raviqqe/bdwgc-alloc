@@ -1,14 +1,12 @@
-#![no_std]
+#![doc = include_str!("../README.md")]
 
-extern crate libc;
+extern crate alloc;
 
 mod error;
 
+use alloc::alloc::{GlobalAlloc, Layout};
+use core::ptr::null;
 use libc::{c_int, c_void, size_t};
-use std::{
-    alloc::{GlobalAlloc, Layout},
-    ptr::null,
-};
 
 const GC_SUCCESS: c_int = 0;
 
