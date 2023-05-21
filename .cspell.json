@@ -1,0 +1,11 @@
+{
+  "words": [
+    "dealloc",
+    "finalizer",
+    "gcollect",
+    "libc",
+    "realloc",
+    "repr",
+    "stackbottom"
+  ]
+}
