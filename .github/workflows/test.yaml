@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - uses: Swatinem/rust-cache@v2
       - run: cargo build
   test:
@@ -21,18 +23,16 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - uses: Swatinem/rust-cache@v2
       - run: cargo test
-  bench:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: Swatinem/rust-cache@v2
-      - run: cargo bench
   examples:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - uses: Swatinem/rust-cache@v2
       - run: |
           cd examples
@@ -41,5 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
       - uses: Swatinem/rust-cache@v2
       - run: cargo build --no-default-features --features cmake
