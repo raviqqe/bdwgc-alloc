@@ -95,7 +95,7 @@ impl Allocator {
         GC_register_finalizer(
             ptr,
             finalize::<F>,
-            Box::new(finalizer).into_raw() as *const _ as *const _,
+            Box::into_raw(Box::new(finalizer)) as *const _ as *const _,
             null(),
             null(),
         );
