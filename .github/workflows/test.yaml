@@ -5,29 +5,33 @@ on:
       - main
   pull_request:
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: true
-      - uses: actions-rs/toolchain@v1
-      - uses: actions-rs/cargo@v1
-        with:
-          command: build
-      - uses: actions-rs/cargo@v1
-        with:
-          command: fmt
-          args: -- --check
-      - uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-      - uses: actions-rs/audit-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - run: |
-          cd examples
-          ./test.sh
-      - run: |
-          git clean -dfx
-          cargo build --no-default-features --features cmake
+      - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
+      - uses: Homebrew/actions/setup-homebrew@master
+      - run: tools/setup.sh
+      - run: cargo build
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
+      - uses: Homebrew/actions/setup-homebrew@master
+      - run: tools/setup.sh
+      - run: cargo test
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
+      - uses: Homebrew/actions/setup-homebrew@master
+      - run: tools/setup.sh
+      - run: cargo bench
