@@ -1,9 +1,12 @@
-extern crate libc;
+#![doc = include_str!("../README.md")]
+
+extern crate alloc;
 
 mod error;
 
+use alloc::alloc::{GlobalAlloc, Layout};
+use core::ptr::null;
 use libc::{c_int, c_void, size_t};
-use std::alloc::{GlobalAlloc, Layout};
 
 const GC_SUCCESS: c_int = 0;
 
@@ -53,9 +56,7 @@ impl Allocator {
     }
 
     pub unsafe fn register_current_thread() -> Result<(), error::Error> {
-        let mut base = GcStackBase {
-            mem_base: std::ptr::null(),
-        };
+        let mut base = GcStackBase { mem_base: null() };
 
         if GC_get_stack_base(&mut base) != GC_SUCCESS {
             return Err(error::Error::new("failed to get stack base"));
@@ -68,7 +69,7 @@ impl Allocator {
 
     pub unsafe fn set_stack_bottom(bottom: *const u8) {
         GC_set_stackbottom(
-            std::ptr::null(),
+            null(),
             &GcStackBase {
                 mem_base: bottom as *const libc::c_void,
             },
@@ -88,13 +89,7 @@ impl Allocator {
         finalizer: extern "C" fn(*mut c_void, *mut c_void),
         client_data: *const c_void,
     ) {
-        GC_register_finalizer(
-            ptr,
-            finalizer,
-            client_data,
-            std::ptr::null(),
-            std::ptr::null(),
-        );
+        GC_register_finalizer(ptr, finalizer, client_data, null(), null());
     }
 }
 
