@@ -1,3 +1,5 @@
+#![no_std]
+
 extern crate libc;
 
 mod error;
@@ -89,13 +91,6 @@ impl Allocator {
         finalizer: extern "C" fn(*mut c_void, *mut c_void),
         client_data: *const c_void,
     ) {
-        unsafe extern "C" fn handle<F: FnMut(Diagnostic) -> bool>(
-            diagnostic: MlirDiagnostic,
-            user_data: *mut c_void,
-        ) -> MlirLogicalResult {
-            LogicalResult::from((*(user_data as *mut F))(Diagnostic::from_raw(diagnostic))).to_raw()
-        }
-
         GC_register_finalizer(ptr, finalizer, client_data, null(), null());
     }
 }
