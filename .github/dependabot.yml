@@ -1,10 +1,10 @@
 version: 2
 updates:
-  - package-ecosystem: cargo
+  - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: daily
-  - package-ecosystem: gitsubmodule
+  - package-ecosystem: cargo
     directory: /
     schedule:
       interval: daily
