@@ -25,6 +25,7 @@ extern "C" {
     fn GC_get_stack_base(stack_base: *mut GcStackBase) -> c_int;
     fn GC_init();
     fn GC_malloc(size: size_t) -> *mut c_void;
+    fn GC_memalign(align: size_t, size: size_t) -> *mut c_void;
     fn GC_realloc(ptr: *mut c_void, size: size_t) -> *mut c_void;
     fn GC_register_my_thread(stack_base: *const GcStackBase) -> c_int;
     fn GC_set_stackbottom(thread: *const c_void, stack_bottom: *const GcStackBase);
@@ -95,7 +96,7 @@ impl Allocator {
 
 unsafe impl GlobalAlloc for Allocator {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        GC_malloc(layout.size()) as *mut u8
+        GC_memalign(layout.align(), layout.size()) as *mut u8
     }
 
     unsafe fn dealloc(&self, ptr: *mut u8, _layout: Layout) {
