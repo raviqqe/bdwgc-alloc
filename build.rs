@@ -59,7 +59,10 @@ fn main() {
     let dst = Config::new(LIB_GC_DIR)
         .profile("Release")
         .define("BUILD_SHARED_LIBS", "FALSE")
-        .cflag(format!("-I{}", libatomic_include_path))
+        .cflag(format!(
+            "-I{} -DPOINTER_MASK=0x7",
+            libatomic_include_path, foo
+        ))
         .build();
 
     println!(
