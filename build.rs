@@ -23,7 +23,7 @@ fn main() {
 
     let dst = autotools::Config::new(LIB_GC_DIR)
         .cflag(format!(
-            "-I{} -L/lib/x86_64-linux-gnu -lpthread -fPIC",
+            "-I{} -L/lib/x86_64-linux-gnu -lpthread -fPIC -D POINTER_MASK=0x7",
             dst.join("include").display()
         ))
         .build();
