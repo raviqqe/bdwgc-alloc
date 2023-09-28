@@ -7,8 +7,5 @@ cd $(dirname $0)
 cargo build
 
 for cargo_file in */Cargo.toml; do
-  target/debug/$(dirname $cargo_file) &
-  pid=$!
-  sleep 20
-  kill $pid
+  cargo run --bin $(dirname $cargo_file)
 done
