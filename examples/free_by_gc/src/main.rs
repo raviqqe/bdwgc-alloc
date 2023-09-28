@@ -10,6 +10,6 @@ fn main() {
     unsafe { Allocator::initialize() }
 
     loop {
-        unsafe { std::alloc::alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
+        let _ = unsafe { std::alloc::alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
     }
 }

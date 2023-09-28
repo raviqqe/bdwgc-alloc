@@ -14,7 +14,7 @@ fn main() {
             unsafe { Allocator::register_current_thread().unwrap() }
 
             for _ in 0..100 {
-                unsafe { std::alloc::alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
+                let _ = unsafe { std::alloc::alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
             }
 
             unsafe { Allocator::unregister_current_thread() }
