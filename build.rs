@@ -23,6 +23,7 @@ fn main() {
 
     let dst = autotools::Config::new(LIB_GC_DIR)
         .cflag(format!(
+            // spell-checker: disable-next-line
             "-I{} -L/lib/x86_64-linux-gnu -lpthread -fPIC",
             dst.join("include").display()
         ))

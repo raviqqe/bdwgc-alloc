@@ -3,6 +3,7 @@
     "autogen",
     "autotools",
     "bdwgc",
+    "canonicalize",
     "cflag",
     "dealloc",
     "finalizer",
