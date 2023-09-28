@@ -22,15 +22,18 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo test
   examples:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: true
       - uses: Swatinem/rust-cache@v2
-      - run: |
-          cd examples
-          ./test.sh
+      - run: examples/test.sh
   cmake:
     runs-on: ubuntu-latest
     steps:

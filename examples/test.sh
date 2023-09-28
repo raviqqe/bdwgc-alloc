@@ -2,10 +2,10 @@
 
 set -ex
 
-cargo build
+cd $(dirname $0)
 
 for cargo_file in */Cargo.toml; do
-  target/debug/$(dirname $cargo_file) &
+  cargo run --bin $(dirname $cargo_file) &
   pid=$!
   sleep 20
   kill $pid
