@@ -5,5 +5,4 @@ members = [
   "free_by_borrow",
   "free_by_gc",
   "static_threads",
-  "tagged_pointer",
 ]
