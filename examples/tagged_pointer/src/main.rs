@@ -13,11 +13,15 @@ fn main() {
     unsafe { Allocator::initialize() }
 
     let t1 = spawn(|| loop {
+        unsafe { Allocator::register_current_thread().unwrap() }
+
         let ptr = allocate();
         unsafe { *ptr = 0 };
     });
 
     let t2 = spawn(|| {
+        unsafe { Allocator::register_current_thread().unwrap() }
+
         let x = allocate();
 
         unsafe { *x = 42 };
