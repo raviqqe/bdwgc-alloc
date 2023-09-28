@@ -9,7 +9,6 @@ authors = [
 repository = "https://github.com/raviqqe/bdwgc-alloc"
 edition = "2021"
 license = "MIT"
-build = "build.rs"
 
 [features]
 default = ["autotools"]
