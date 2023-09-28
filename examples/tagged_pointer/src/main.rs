@@ -1,5 +1,8 @@
 use bdwgc_alloc::Allocator;
-use std::alloc::{alloc, Layout};
+use std::{
+    alloc::{alloc, Layout},
+    thread::spawn,
+};
 
 const BITS: usize = 7 << 48;
 
@@ -9,17 +12,25 @@ static GLOBAL_ALLOCATOR: Allocator = Allocator;
 fn main() {
     unsafe { Allocator::initialize() }
 
-    let mut xs = vec![];
+    let t1 = spawn(|| loop {
+        let ptr = allocate();
+        unsafe { *ptr = 0 };
+    });
 
-    for i in 0..10000000 {
-        let ptr = unsafe { alloc(Layout::new::<usize>()) } as *mut usize;
+    let t2 = spawn(|| {
+        let x = allocate();
 
-        unsafe { *ptr = i };
+        unsafe { *x = 42 };
 
-        xs.push(ptr as usize | BITS);
-    }
+        loop {
+            assert_eq!(unsafe { *((x as usize & !BITS) as *mut usize) }, 42);
+        }
+    });
 
-    for x in xs {
-        println!("{}", unsafe { *((x & !BITS) as *mut usize) });
-    }
+    t1.join().unwrap();
+    t2.join().unwrap();
+}
+
+fn allocate() -> *mut usize {
+    (unsafe { alloc(Layout::new::<usize>()) }) as *mut usize
 }
