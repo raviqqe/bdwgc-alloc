@@ -42,19 +42,23 @@ extern "C" {
 pub struct Allocator;
 
 impl Allocator {
+    /// Locks a collector.
     pub fn lock() {
         unsafe { GC_alloc_lock() }
     }
 
+    /// Unlocks a collector.
     pub fn unlock() {
         unsafe { GC_alloc_unlock() }
     }
 
+    /// Initializes a collector.
     pub unsafe fn initialize() {
         GC_init();
         GC_allow_register_threads();
     }
 
+    /// Registers a current thread to a collector.
     pub unsafe fn register_current_thread() -> Result<(), error::Error> {
         let mut base = GcStackBase { mem_base: null() };
 
@@ -67,6 +71,10 @@ impl Allocator {
         Ok(())
     }
 
+    /// Sets a bottom of a stack.
+    ///
+    /// You do not have to call this function in most cases.
+    /// A collector detects the bottom on initialization automatically.
     pub unsafe fn set_stack_bottom(bottom: *const u8) {
         GC_set_stackbottom(
             null(),
