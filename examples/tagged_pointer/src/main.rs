@@ -1,7 +1,7 @@
-extern crate bdwgc_alloc;
-
 use bdwgc_alloc::Allocator;
-use std::alloc::Layout;
+use std::alloc::{alloc, Layout};
+
+const BITS: usize = 7 << 48;
 
 #[global_allocator]
 static GLOBAL_ALLOCATOR: Allocator = Allocator;
@@ -9,13 +9,17 @@ static GLOBAL_ALLOCATOR: Allocator = Allocator;
 fn main() {
     unsafe { Allocator::initialize() }
 
-    let handle = std::thread::spawn(move || {
-        unsafe { Allocator::register_current_thread().unwrap() }
+    let mut xs = vec![];
 
-        loop {
-            let _ = unsafe { std::alloc::alloc(Layout::from_size_align(2 ^ 8, 8).unwrap()) };
-        }
-    });
+    for i in 0..10000000 {
+        let ptr = unsafe { alloc(Layout::new::<usize>()) } as *mut usize;
 
-    handle.join().unwrap();
+        unsafe { *ptr = i };
+
+        xs.push(ptr as usize | BITS);
+    }
+
+    for x in xs {
+        println!("{}", unsafe { *((x & !BITS) as *mut usize) });
+    }
 }
