@@ -1,11 +1,13 @@
 {
   "words": [
+    "bdwgc",
     "dealloc",
     "finalizer",
     "gcollect",
     "libc",
     "realloc",
     "repr",
-    "stackbottom"
+    "stackbottom",
+    "unregisters"
   ]
 }

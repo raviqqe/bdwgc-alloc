@@ -1,5 +1,3 @@
-extern crate bdwgc_alloc;
-
 use bdwgc_alloc::Allocator;
 
 #[global_allocator]
