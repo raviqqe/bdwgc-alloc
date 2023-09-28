@@ -2,6 +2,8 @@
 
 set -ex
 
+cd $(dirname $0)
+
 cargo build
 
 for cargo_file in */Cargo.toml; do
