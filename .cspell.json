@@ -1,11 +1,18 @@
 {
   "words": [
+    "autogen",
+    "autotools",
+    "bdwgc",
+    "cflag",
     "dealloc",
     "finalizer",
     "gcollect",
+    "libatomic",
     "libc",
     "realloc",
     "repr",
-    "stackbottom"
+    "rustc",
+    "stackbottom",
+    "unregisters"
   ]
 }

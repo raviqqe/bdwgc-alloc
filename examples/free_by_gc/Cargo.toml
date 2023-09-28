@@ -2,7 +2,7 @@
 name = "free_by_gc"
 version = "0.1.0"
 authors = ["Yota Toyama <raviqqe@gmail.com>"]
-edition = "2018"
+edition = "2021"
 publish = false
 
 [dependencies]
