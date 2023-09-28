@@ -1,7 +1,7 @@
 use bdwgc_alloc::Allocator;
 use std::alloc::{alloc, Layout};
 
-const BITS: usize = (1 << 8 - 1) << 48;
+const BITS: usize = usize::MAX << 48 | 0x7;
 
 #[global_allocator]
 static GLOBAL_ALLOCATOR: Allocator = Allocator;
@@ -9,22 +9,16 @@ static GLOBAL_ALLOCATOR: Allocator = Allocator;
 fn main() {
     unsafe { Allocator::initialize() }
 
-    let x = allocate();
-
-    unsafe { *x = 42 };
-
-    let x = x as usize | BITS;
-    let mut xs = vec![];
-
     loop {
-        assert_eq!(x & BITS, BITS);
-        assert_eq!(unsafe { *((x & !BITS) as *mut usize) }, 42);
+        let x = allocate();
+        unsafe { *x = 42 };
+        let x = x as usize | BITS;
 
-        let ptr = allocate();
-        unsafe { *ptr = 0 };
-        xs.push(ptr);
+        assert_eq!(x & BITS, BITS);
 
         Allocator::force_collect();
+
+        assert_eq!(unsafe { *((x & !BITS) as *mut usize) }, 42);
     }
 }
 
