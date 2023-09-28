@@ -28,9 +28,7 @@ jobs:
         with:
           submodules: true
       - uses: Swatinem/rust-cache@v2
-      - run: |
-          cd examples
-          ./test.sh
+      - run: examples/test.sh
   cmake:
     runs-on: ubuntu-latest
     steps:
