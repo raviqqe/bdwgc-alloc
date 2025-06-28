@@ -6,7 +6,7 @@ fn main() {
     for dir in &[LIB_ATOMIC_OPS_DIR, LIB_GC_DIR] {
         std::process::Command::new("sh")
             .arg("-c")
-            .arg(format!("cd {} && ./autogen.sh", dir))
+            .arg(format!("cd {dir} && ./autogen.sh"))
             .output()
             .unwrap();
     }
@@ -38,7 +38,7 @@ fn main() {
     for dir in &[LIB_ATOMIC_OPS_DIR, LIB_GC_DIR] {
         std::process::Command::new("sh")
             .arg("-c")
-            .arg(format!("cd {} && git clean -dfx", dir))
+            .arg(format!("cd {dir} && git clean -dfx"))
             .output()
             .unwrap();
     }
