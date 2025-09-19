@@ -17,7 +17,7 @@ struct GcStackBase {
 }
 
 #[link(name = "gc", kind = "static")]
-extern "C" {
+unsafe extern "C" {
     fn GC_allow_register_threads();
     fn GC_alloc_lock();
     fn GC_alloc_unlock();
