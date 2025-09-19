@@ -90,12 +90,14 @@ impl Allocator {
     ///
     /// The bottom address must be valid.
     pub unsafe fn set_stack_bottom(bottom: *const u8) {
-        GC_set_stackbottom(
-            null(),
-            &GcStackBase {
-                mem_base: bottom as *const libc::c_void,
-            },
-        )
+        unsafe {
+            GC_set_stackbottom(
+                null(),
+                &GcStackBase {
+                    mem_base: bottom as *const libc::c_void,
+                },
+            )
+        }
     }
 
     /// Unregisters a current thread from a collector.
@@ -104,7 +106,7 @@ impl Allocator {
     ///
     /// The thread must be registered already.
     pub unsafe fn unregister_current_thread() {
-        GC_unregister_my_thread()
+        unsafe { GC_unregister_my_thread() }
     }
 
     /// Runs a garbage collection forcibly.
@@ -122,7 +124,7 @@ impl Allocator {
         finalizer: extern "C" fn(*mut c_void, *mut c_void),
         client_data: *const c_void,
     ) {
-        unsafe { GC_register_finalizer(ptr, finalizer, client_data, null(), null()) }
+        unsafe { GC_register_finalizer(ptr, finalizer, client_data, null(), null()) };
     }
 }
 
