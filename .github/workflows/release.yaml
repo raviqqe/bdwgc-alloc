@@ -22,6 +22,8 @@ jobs:
       - uses: rust-lang/crates-io-auth-action@v1
         id: auth
         if: github.ref == 'refs/heads/main'
-      - run: cargo workspaces publish -y --from-git ${{ github.ref != 'refs/heads/main' && '--dry-run' || '' }}
+      - run: >
+          cargo workspaces publish -y --from-git --no-verify
+          ${{ github.ref != 'refs/heads/main' && '--dry-run' || '' }}
         env:
           CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
