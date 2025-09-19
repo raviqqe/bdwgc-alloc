@@ -58,8 +58,10 @@ impl Allocator {
     ///
     /// This function must be called in a main thread.
     pub unsafe fn initialize() {
-        GC_init();
-        GC_allow_register_threads();
+        unsafe {
+            GC_init();
+            GC_allow_register_threads();
+        }
     }
 
     /// Registers a current thread to a collector.
@@ -70,9 +72,9 @@ impl Allocator {
     pub unsafe fn register_current_thread() -> Result<(), error::Error> {
         let mut base = GcStackBase { mem_base: null() };
 
-        if GC_get_stack_base(&mut base) != GC_SUCCESS {
+        if unsafe { GC_get_stack_base(&mut base) } != GC_SUCCESS {
             return Err(error::Error::new("failed to get stack base"));
-        } else if GC_register_my_thread(&base) != GC_SUCCESS {
+        } else if unsafe { GC_register_my_thread(&base) } != GC_SUCCESS {
             return Err(error::Error::new("failed to register a thread for GC"));
         }
 
@@ -120,20 +122,20 @@ impl Allocator {
         finalizer: extern "C" fn(*mut c_void, *mut c_void),
         client_data: *const c_void,
     ) {
-        GC_register_finalizer(ptr, finalizer, client_data, null(), null());
+        unsafe { GC_register_finalizer(ptr, finalizer, client_data, null(), null()) }
     }
 }
 
 unsafe impl GlobalAlloc for Allocator {
     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
-        GC_malloc(layout.size()) as *mut u8
+        (unsafe { GC_malloc(layout.size()) }) as *mut u8
     }
 
     unsafe fn dealloc(&self, ptr: *mut u8, _layout: Layout) {
-        GC_free(ptr as *mut c_void)
+        unsafe { GC_free(ptr as *mut c_void) }
     }
 
     unsafe fn realloc(&self, ptr: *mut u8, _layout: Layout, size: usize) -> *mut u8 {
-        GC_realloc(ptr as *mut c_void, size) as *mut u8
+        (unsafe { GC_realloc(ptr as *mut c_void, size) }) as *mut u8
     }
 }
